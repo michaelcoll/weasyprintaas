@@ -20,8 +20,9 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 # Install weasyprint
 RUN apt-get -y update \
+    && apt-get -y dist-upgrade \
     && apt-get install -y \
-        python3-cffi python3-brotli libpango-1.0-0 libpangoft2-1.0-0 \
+        libpango-1.0-0 libpangoft2-1.0-0 \
     && apt-get -y clean \
     && pip install weasyprint
 
