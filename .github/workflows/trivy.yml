@@ -1,4 +1,4 @@
-name: Build
+name: Trivy
 on:
   push:
     paths-ignore:
@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  trivy-scan:
+  scan:
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
