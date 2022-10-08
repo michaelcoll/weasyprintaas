@@ -8,7 +8,7 @@ RUN go mod download
 RUN CGO_ENABLED=0 go build -o /go/bin/app
 
 # Now copy it into our base image.
-FROM debian:sid-slim
+FROM debian:bullseye-slim
 
 ARG USERNAME=nonroot
 ARG USER_UID=1000
