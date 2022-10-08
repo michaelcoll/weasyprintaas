@@ -46,6 +46,7 @@ func (c *Controller) Serve() {
 	router := gin.Default()
 
 	router.POST("/", c.convert)
+	router.GET("/health", c.health)
 
 	// Listen and serve on 0.0.0.0:<portNumber>
 	fmt.Printf("Listening API on 0.0.0.0%s\n", color.GreenString(apiPort))
@@ -85,4 +86,8 @@ func removeFile(name string) {
 	if err != nil {
 		fmt.Printf("Can't remove output file : %v\n", err)
 	}
+}
+
+func (c *Controller) health(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"status": "OK"})
 }
