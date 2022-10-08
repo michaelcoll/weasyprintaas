@@ -8,7 +8,7 @@ RUN go mod download
 RUN CGO_ENABLED=0 go build -o /go/bin/app
 
 # Now copy it into our base image.
-FROM python:3-slim
+FROM debian:sid-slim
 
 ARG USERNAME=nonroot
 ARG USER_UID=1000
@@ -22,9 +22,14 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN apt-get -y update \
     && apt-get -y dist-upgrade \
     && apt-get install -y \
-        libpango-1.0-0 libpangoft2-1.0-0 \
-    && apt-get -y clean \
-    && pip install weasyprint
+        python3-pip libpango-1.0-0 libpangoft2-1.0-0 \
+    && pip install weasyprint \
+    && apt-get -y remove python3-pip \
+    && apt-get -y autoremove \
+    && apt-get install -y \
+        python3-minimal \
+    && apt-get -y autoclean \
+    && apt-get -y clean
 
 USER $USERNAME
 
