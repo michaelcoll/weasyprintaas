@@ -1,4 +1,4 @@
-name: Trivy
+name: trivy
 on:
   push:
     paths-ignore:
