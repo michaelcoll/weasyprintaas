@@ -23,14 +23,15 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/fatih/color"
 	"github.com/gin-gonic/gin"
 
-	"github.com/michaelcoll/weasyprint/internal/weasyprint/model"
+	"github.com/michaelcoll/weasyprintaas/internal/weasyprint/model"
 )
 
-const apiPort = ":8081"
+const apiPort = ":8080"
 
 type Controller struct {
 }
@@ -62,14 +63,18 @@ func (c *Controller) convert(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("Body is malformed : %v", err)})
 	}
 
-	outFilename := fmt.Sprintf("out-%d.pdf", rand.Intn(1000000))
-	fmt.Println(outFilename)
+	fmt.Printf("Converting url %s\n", color.CyanString(request.Url))
+	outFilename := fmt.Sprintf("/tmp/out-%d.pdf", rand.Intn(1000000))
+
+	stderr := new(strings.Builder)
 	cmd := exec.CommandContext(ctx.Request.Context(), "weasyprint", request.Url, outFilename)
-	defer removeFile(outFilename)
+	cmd.Stderr = stderr
 
 	err = cmd.Run()
+	defer removeFile(outFilename)
+
 	if err != nil {
-		log.Fatalf("Can't execute command : %v\n", err)
+		fmt.Printf("Can't execute command : \n%v\n", color.RedString(stderr.String()))
 	}
 
 	ctx.File(outFilename)
@@ -78,6 +83,6 @@ func (c *Controller) convert(ctx *gin.Context) {
 func removeFile(name string) {
 	err := os.Remove(name)
 	if err != nil {
-		log.Fatalf("Can't remove output file : %v\n", err)
+		fmt.Printf("Can't remove output file : %v\n", err)
 	}
 }

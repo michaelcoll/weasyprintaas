@@ -19,7 +19,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/michaelcoll/weasyprint/internal/weasyprint"
+	"github.com/michaelcoll/weasyprintaas/internal/weasyprint"
 )
 
 // serveCmd represents the serve command
