@@ -16,7 +16,7 @@
 
 package main
 
-import "github.com/michaelcoll/weasyprint/cmd"
+import "github.com/michaelcoll/weasyprintaas/cmd"
 
 func main() {
 	cmd.Execute()

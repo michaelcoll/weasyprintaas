@@ -24,7 +24,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "gallery-daemon",
+	Use:   "weasyprintaas",
 	Short: "",
 	Long: `
 The daemon that serve weasyprint calls`,

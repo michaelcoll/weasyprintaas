@@ -1,4 +1,4 @@
-module github.com/michaelcoll/weasyprint
+module github.com/michaelcoll/weasyprintaas
 
 go 1.18
 

@@ -25,5 +25,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          binary_name: "gallery-daemon"
-          ldflags: -X "github.com/michaelcoll/gallery-daemon/cmd.version=${{ env.APP_VERSION }}"
+          binary_name: "weasyprintaas"
+          ldflags: -X "github.com/michaelcoll/weasyprintaas/cmd.version=${{ env.APP_VERSION }}"
