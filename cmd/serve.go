@@ -22,16 +22,20 @@ import (
 	"github.com/michaelcoll/weasyprintaas/internal/weasyprint"
 )
 
+var port uint16
+
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "Starts the server",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		weasyprint.New().Serve()
+		weasyprint.New().Serve(port)
 	},
 }
 
 func init() {
+	serveCmd.Flags().Uint16VarP(&port, "port", "p", 8080, "Listening port")
+
 	rootCmd.AddCommand(serveCmd)
 }
