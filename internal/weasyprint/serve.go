@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 
 	"github.com/fatih/color"
@@ -31,8 +32,6 @@ import (
 	"github.com/michaelcoll/weasyprintaas/internal/weasyprint/model"
 )
 
-const apiPort = ":8080"
-
 type Controller struct {
 }
 
@@ -40,7 +39,7 @@ func New() *Controller {
 	return &Controller{}
 }
 
-func (c *Controller) Serve() {
+func (c *Controller) Serve(port uint16) {
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.Default()
@@ -49,8 +48,8 @@ func (c *Controller) Serve() {
 	router.GET("/health", c.health)
 
 	// Listen and serve on 0.0.0.0:<portNumber>
-	fmt.Printf("Listening API on 0.0.0.0%s\n", color.GreenString(apiPort))
-	err := router.Run(apiPort)
+	fmt.Printf("Listening API on 0.0.0.0:%s\n", color.GreenString(strconv.Itoa(int(port))))
+	err := router.Run(fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatalf("Error starting server : %v", err)
 	}
