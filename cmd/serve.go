@@ -23,6 +23,7 @@ import (
 )
 
 var port uint16
+var multithreading bool
 
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
@@ -30,12 +31,13 @@ var serveCmd = &cobra.Command{
 	Short: "Starts the server",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		weasyprint.New().Serve(port)
+		weasyprint.New(multithreading).Serve(port)
 	},
 }
 
 func init() {
 	serveCmd.Flags().Uint16VarP(&port, "port", "p", 8080, "Listening port")
+	serveCmd.Flags().BoolVarP(&multithreading, "multi-threading", "T", false, "Multi-threading for conversions")
 
 	rootCmd.AddCommand(serveCmd)
 }
