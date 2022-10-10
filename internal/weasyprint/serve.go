@@ -25,6 +25,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/fatih/color"
 	"github.com/gin-gonic/gin"
@@ -33,10 +34,12 @@ import (
 )
 
 type Controller struct {
+	multithreading bool
+	mu             sync.Mutex
 }
 
-func New() *Controller {
-	return &Controller{}
+func New(multithreading bool) *Controller {
+	return &Controller{multithreading: multithreading}
 }
 
 func (c *Controller) Serve(port uint16) {
@@ -70,7 +73,13 @@ func (c *Controller) convert(ctx *gin.Context) {
 	cmd := exec.CommandContext(ctx.Request.Context(), "weasyprint", request.Url, outFilename)
 	cmd.Stderr = stderr
 
+	if !c.multithreading {
+		c.mu.Lock()
+	}
 	err = cmd.Run()
+	if !c.multithreading {
+		c.mu.Unlock()
+	}
 	defer removeFile(outFilename)
 
 	if err != nil {
