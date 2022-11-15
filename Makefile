@@ -4,3 +4,7 @@ build:
 
 run:
 	go run . serve
+
+dep-upgrade:
+	go get -u
+	go mod tidy
