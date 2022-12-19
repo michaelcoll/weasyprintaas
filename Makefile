@@ -2,6 +2,9 @@
 build:
 	go build -v .
 
+build-docker:
+	docker build . -t weasyprintaas:latest --build-arg VERSION=latest-local
+
 run:
 	go run . serve
 
