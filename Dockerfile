@@ -1,11 +1,13 @@
 # Start by building the application.
 FROM golang:1.19 as build
 
+ARG VERSION
+
 WORKDIR /go/src/app
 COPY . .
 
 RUN go mod download
-RUN CGO_ENABLED=0 go build -o /go/bin/app
+RUN CGO_ENABLED=0 go build -o /go/bin/app -ldflags="-s -w -X 'github.com/michaelcoll/weasyprintaas/cmd.version=$VERSION'"
 
 # Now copy it into our base image.
 FROM alpine:3
