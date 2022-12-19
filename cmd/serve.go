@@ -18,8 +18,14 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"os"
+	"strconv"
 
 	"github.com/michaelcoll/weasyprintaas/internal/weasyprint"
+)
+
+const (
+	portEnvVarName = "WPR_PORT"
 )
 
 var port uint16
@@ -31,7 +37,7 @@ var serveCmd = &cobra.Command{
 	Short: "Starts the server",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		weasyprint.New(multithreading).Serve(port)
+		weasyprint.New(multithreading).Serve(getPort())
 	},
 }
 
@@ -40,4 +46,15 @@ func init() {
 	serveCmd.Flags().BoolVarP(&multithreading, "multi-threading", "T", false, "Multi-threading for conversions")
 
 	rootCmd.AddCommand(serveCmd)
+}
+
+func getPort() uint16 {
+	env, present := os.LookupEnv(portEnvVarName)
+	if present {
+		if p, err := strconv.ParseUint(env, 10, 16); err == nil {
+			return uint16(p)
+		}
+	}
+
+	return port
 }
