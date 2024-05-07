@@ -1,5 +1,5 @@
 # Start by building the application.
-FROM golang:1.19 as build
+FROM golang:1 as build
 
 ARG VERSION
 
@@ -21,8 +21,8 @@ RUN addgroup --gid $USER_GID -S $USERNAME \
     && adduser -u $USER_UID -S $USERNAME -G $USERNAME
 
 # Install weasyprint
-RUN apk --update --upgrade --no-cache add py3-pip py3-pillow py3-cffi py3-brotli gcc musl-dev python3 pango fontconfig font-noto \
-    && pip install weasyprint \
+RUN apk --update --upgrade --no-cache add py3-pip py3-pillow py3-cffi py3-brotli py3-html5lib py3-cssselect2 py3-pyphen py3-fonttools gcc musl-dev python3 pango fontconfig font-noto \
+    && pip install weasyprint --break-system-packages \
     && apk del py3-pip py3-brotli gcc musl-dev \
     && apk add py3-six
 
