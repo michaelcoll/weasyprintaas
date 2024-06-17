@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/fatih/color v1.17.0
 	github.com/gin-gonic/gin v1.10.0
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 )
 
 require (
